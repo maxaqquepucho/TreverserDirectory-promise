@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Traverse Directories sync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+</head>
+
+<style>
+    .area {
+        width: 45em;
+        padding: 15px;
+        border: 1px solid #333;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    #dropZone {
+        border: 2px dashed #bbb;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        padding: 50px;
+        text-align: center;
+        font: 21pt bold arial;
+        color: #bbb;
+
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .parentDropzone {
+        display:flex;
+        justify-content: center;
+        margin-top: 100px
+    }
+    /* .dropZone {
+        height: 300px;
+    } */
+</style>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Traverse Directories async</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="javascript:void(0)">Sass</a></li>
+                <li><a href="javascript:void(0)">Components</a></li>
+                <li><a href="javascript:void(0)">JavaScript</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="parentDropzone">
+        <div class="area">
+            <div id="dropZone">Drop files here</div>
+        </div>
+
+    </div>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>
