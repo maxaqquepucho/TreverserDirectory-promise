@@ -1,6 +1,7 @@
 let dropzone = document.querySelector('#dropZone')      
 
-    var onlyFiles = [];
+    let onlyFiles = new Array()
+    let arrayFiles = []
     var typeEntry;
     var dropEvent = function (e) {
 
@@ -24,16 +25,19 @@ let dropzone = document.querySelector('#dropZone')
             for (var i = 0; i < length; i++) {
                 // traverseFileTree(e.dataTransfer.items[i].webkitGetAsEntry());
                 walkEntriesAsync(e.dataTransfer.items[i].webkitGetAsEntry()).then( res => {
-                    console.log(res)
                     console.log(onlyFiles)
-                    onlyFiles = []
+
+                    
+                    console.log(res)
                    
-                })                
+                    onlyFiles = new Array()
+                   
+                }).catch(err => console.log(err))                
         }
 
-        setTimeout(() => {
-            // console.log(onlyFiles)
-        }, 300);
+        // setTimeout(() => {
+        //     console.log(onlyFiles)
+        // }, 300);
     }
 
     // POR MEJORAR EL ALGORITMO PER MUY INTERESANTE
@@ -112,22 +116,26 @@ let dropzone = document.querySelector('#dropZone')
 
     function walkEntriesAsync(node) {
         // https://wicg.github.io/entries-api/#api-entry
-        if (node.isDirectory) {
-            // process directories async
-            return new Promise((resolve, reject) => {
-                readEntriesAsync(node).then((entries) => {                    
+        return new Promise((resolve, reject) => {
+            if (node.isDirectory) {
+                // process directories async
+                readEntriesAsync(node).then((entries) => {  
                     let dirPromises = entries.map((dir) => walkEntriesAsync(dir));
-    
-                    return Promise.all(dirPromises).then((fileSets) => {
+                    
+                    return Promise.all(dirPromises).then((fileSets) => {                        
+                        onlyFiles.push(node)                  
                         resolve(fileSets);
                     });
                 });
-            });
-        } else {
-            // directly resolve files
-            console.log(node)
-            return Promise.resolve(node);
-        }
+
+            } else { 
+                // console.log(node)  
+                node.file( file => {
+                    onlyFiles.push({ file: file, path: node.fullPath })            
+                    resolve(node);
+                })
+            }
+        });
     }
     
     // convert callback interface of entry.createReader() to promise
@@ -138,20 +146,12 @@ let dropzone = document.querySelector('#dropZone')
     
         return new Promise((resolve, reject) => {
             reader.readEntries((entries) => {
-                entries.forEach((entry) => {                    
-                    entriesArr.push(entry);
-                    if (entry.isFile) {
-                        entry.file( file => {
-                            onlyFiles.push({ file: file, path: entry.fullPath });
-                        })
-                    }else {
-                        onlyFiles.push(entry)                      
-
-                    }
-
-                });
-                // console.log(entriesArr,'lll')
-                resolve(entriesArr);
+                for (let i = 0; i < entries.length; i++) {
+                    const entry = entries[i];
+                    entriesArr.push(entry);                    
+                }
+                resolve(entriesArr);                
+                
             }, reject);
         });
     }
