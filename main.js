@@ -123,10 +123,10 @@ let dropzone = document.querySelector('#dropZone')
                     let dirPromises = entries.map((dir) => walkEntriesAsync(dir));
                     
                     return Promise.all(dirPromises).then((fileSets) => {                        
-                        // onlyFiles.push(node)  
-                        node.file(file => {
-                            onlyFiles.push({ file: file, path: node.fullPath })                            
-                        })                
+                        onlyFiles.push(node)  
+                        // node.file(file => {
+                        //     onlyFiles.push({ file: file, path: node.fullPath })                            
+                        // })                
                         resolve(fileSets);
                     });
                 });
