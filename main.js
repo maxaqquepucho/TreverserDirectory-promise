@@ -3,18 +3,18 @@ let dropzone = document.querySelector('#dropZone')
     let onlyFiles = new Array()
     let arrayFiles = []
     var typeEntry;
-    var dropEvent = function (e) {
+    var dropEvent = async function (e) {
 
         e.stopPropagation();
         e.preventDefault();            
         dropzone.classList.remove('hover');   
         
         // funciona excelente
-        gerArrayTreeObjectFiles(e)
+        // gerArrayTreeObjectFiles(e)
         
         // mejorar
-        // getTreeArrayFiles(e)
-          
+        let res1 = await getTreeArrayFiles(e)
+          console.log(res1)
         return false;
     
     };
@@ -41,12 +41,53 @@ let dropzone = document.querySelector('#dropZone')
     }
 
     // POR MEJORAR EL ALGORITMO PER MUY INTERESANTE
-    const getTreeArrayFiles = (e) => {
-        const data = e.dataTransfer.items;
-        for (let i = 0; i < data.length; i++) {
-            const item = data[i];
-            let entry = item.webkitGetAsEntry();
-            traverseDirectory(entry).then(result => console.log(result));          
+    const getTreeArrayFiles =  (e) => {
+        return new Promise( (r,rj) => {
+            const data = e.dataTransfer.items;
+            // for (let i = 0; i < data.length; i++) {
+            //     const item = data[i];
+            //     let entry = item.webkitGetAsEntry();
+            //     // traverseDirectory(entry).then(result => console.log(result));  
+            //     let res = await traverseDirectory(entry)         
+            //     console.log(res)
+            // }
+            
+            // console.log(Array.from(data))
+            Array.from(data).forEach(async (item, index) => {
+                // const item = data[i];
+                // console.log(item)
+                let entry = item.webkitGetAsEntry();
+                // // traverseDirectory(entry).then(result => console.log(result));  
+                let res = await traverseDirectory(entry)         
+                console.log(res)
+                if (index == Array.from(data).length) {
+                    r('termino Pendejo!!')
+                }
+
+            });
+
+        })
+
+        // await asyncForEach(Array.from(data), async (item) => {
+        //     // await waitFor(50);
+        //     var entry = item.webkitGetAsEntry();
+        //     let res = await traverseDirectory(entry)
+        //     console.log(res)
+
+
+        //     // console.log(num);
+        // })
+
+
+
+
+
+        // [1,2].forEach( e => console.log(e))
+    }
+
+    async function asyncForEach(array, callback) {
+        for (let index = 0; index < array.length; index++) {
+            await callback(array[index], index, array);
         }
     }
 
