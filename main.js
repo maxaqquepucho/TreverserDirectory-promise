@@ -41,6 +41,7 @@ let dropzone = document.querySelector('#dropZone')
     }
 
     // POR MEJORAR EL ALGORITMO PER MUY INTERESANTE
+    
     const getTreeArrayFiles =  (e) => {
         return new Promise( (r,rj) => {
             const data = e.dataTransfer.items;
