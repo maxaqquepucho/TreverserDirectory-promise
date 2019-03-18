@@ -87,7 +87,7 @@ let dropzone = document.querySelector('#dropZone')
         });
     }
 
-    var personalPath = (path) => {
+    var personalPathFile = (path) => {
         let slash = path.substring(1, path.length)
         let lastLength = slash.split('/')[ slash.split('/').length - 1 ].length
         return slash.substring(0, (slash.length - lastLength))
